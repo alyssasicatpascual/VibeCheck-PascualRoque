@@ -39,7 +39,8 @@ const vibeMap = {
   stressed: { emoji: "😵‍💫", message: "Breathe. One bug at a time." },
 };
 
-
+// Smash counter (stored in memory for now)
+let smashes = 0;
 
 // GET /api/fortune -> returns one random fortune
 app.get("/api/fortune", (req, res) => {
