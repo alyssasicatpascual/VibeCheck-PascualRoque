@@ -1,3 +1,8 @@
+/**
+ * VibeCheck API (CPE 411L)
+ * Updated with Tito Jokes & Real Talk Fortunes
+ */
+
 const express = require("express");
 const cors = require("cors");
 
@@ -7,38 +12,42 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 
-// --- Creative Data Pools ---
+// --- New Data Pools ---
 
+// "Tito Wisdom" - Pragmatic advice for devs and students
 const fortunes = [
-  "🔮 The spirits indicate your next git merge will have zero conflicts.",
-  "🔮 You will solve a bug today by staring at the screen until it feels guilty.",
-  "🔮 Beware of copying code from StackOverflow without reading the comments.",
-  "🔮 A forgotten semicolon will haunt your dreams tonight.",
-  "🔮 Your imposter syndrome is lying to you. You're doing great.",
-  "🔮 You will finally understand why that one div won't center.",
+  "🔮 Your back hurts? Inom ka ng tubig. Posture check muna.",
+  "🔮 That error is not a bug. It's a 'surprise feature'.",
+  "🔮 Stop overthinking. It works on my machine.",
+  "🔮 You will be asked to fix the printer today because you 'know computers'.",
+  "🔮 Pahinga ka muna. Even StackOverflow needs a break.",
+  "🔮 Your next commit will conflict. Just accept your fate.",
+  "🔮 Wag ka mag-deploy ng Friday. Bad feng shui yan.",
 ];
 
+// "Tito Jokes" - Classic puns and groan-worthy humor
 const jokes = [
-  "A SQL query walks into a bar, walks up to two tables, and asks... 'Can I join you?'",
-  "Why do programmers prefer dark mode? Because light attracts bugs.",
-  "How many programmers does it take to change a light bulb? None, that's a hardware problem.",
-  "I have a joke about CSS but... \n   it's \n      hard \n         to \n   align.",
-  "Knock, knock.\nWho's there?\nRecursion.\nRecursion who?\nKnock, knock...",
-  "!.false — It's funny because it's true.",
+  "Anong tawag sa computer na kumakanta? ... A Dell. 🎤",
+  "Bakit bawal magutom sa EDSA? ... Kasi traffic JAM. 🍓",
+  "Anong sabi ng 0 sa 8? ... 'Nice belt!' 👖",
+  "Bakit malungkot ang kalendaryo? ... Kasi bilang na ang araw niya. 📅",
+  "Anong favorite sport ng mga web developer? ... C-SS (Tennis). 🎾",
+  "Saan nagpupunta ang mga pusa pag namatay sila? ... Sa Purrr-gatory. 😺",
+  "Anong tawag sa maliit na tsunami? ... Tsunami-it. 🌊",
 ];
 
 const vibeMap = {
   happy: { 
-    emoji: "🚀", 
-    message: "Velocity is high. Code is clean. Deploy to production on a Friday, I dare you." 
+    emoji: "😎", 
+    message: "Ayos! Tuloy ang grind. Don't forget to commit." 
   },
   tired: { 
-    emoji: "☕", 
-    message: "System overheating. Insert caffeine to continue operation. Do not attempt complex logic." 
+    emoji: "💤", 
+    message: "Idlip ka muna 5 minutes. (After 5 hours na gising niyan)." 
   },
   stressed: { 
-    emoji: "🔥", 
-    message: "This is fine. Everything is fine. Just close the laptop and touch some grass." 
+    emoji: "💆‍♂️", 
+    message: "Chill lang. The bug smells fear. Relax ka lang." 
   },
 };
 
@@ -62,7 +71,7 @@ app.get("/api/vibe", (req, res) => {
 
   if (!vibe) {
     return res.status(400).json({
-      message: "Vibe check failed. Try mood=happy, tired, or stressed.",
+      message: "Mood not found. Try happy, tired, or stressed.",
     });
   }
   res.json({ mood, ...vibe });
@@ -70,10 +79,10 @@ app.get("/api/vibe", (req, res) => {
 
 app.post("/api/smash", (req, res) => {
   smashes += 1;
-  // Send back a funny message depending on how high the number gets
-  let flavorText = "Ouch.";
-  if (smashes > 10) flavorText = "Stop it!";
-  if (smashes > 50) flavorText = "I'm calling the police.";
+  
+  let flavorText = "Sige lang!";
+  if (smashes > 10) flavorText = "Hala, sira na mouse mo.";
+  if (smashes > 50) flavorText = "Tama na, mahal ang electric bill!";
   
   res.json({ smashes, message: flavorText });
 });
@@ -81,9 +90,9 @@ app.post("/api/smash", (req, res) => {
 app.get("/api/secret", (req, res) => {
   const code = req.query.code;
   if (code === "411L") {
-    return res.json({ message: "🎉 UNLOCKED: The answer to the exam is... just kidding. Good luck!" });
+    return res.json({ message: "🎉 Secret Unlocked: Libreng milk tea (joke lang)." });
   }
-  res.status(403).json({ message: "⛔ Access Denied. Wrong secret code." });
+  res.status(403).json({ message: "⛔ Access Denied. Wrong code." });
 });
 
 app.listen(PORT, () => {
