@@ -1,10 +1,6 @@
 /**
  * VibeCheck API (CPE 411L)
- *
- * This server:
- * - runs on your computer (localhost)
- * - listens on a port (default: 3000)
- * - responds to browser requests (endpoints) using JSON
+ * Updated with Tito Jokes & Real Talk Fortunes
  */
 
 const express = require("express");
@@ -13,86 +9,92 @@ const cors = require("cors");
 const app = express();
 const PORT = 3000;
 
-// CORS lets your frontend page call your backend API.
 app.use(cors());
-
-// This allows Express to read JSON bodies (used for POST requests).
 app.use(express.json());
 
-// Data pools (random picks). You can customize these.
+// --- New Data Pools ---
+
+// "Tito Wisdom" - Pragmatic advice for devs and students
 const fortunes = [
-  "You will debug it in 5 minutes... after 55 minutes of panic.",
-  "Your next commit will be clean and meaningful.",
-  "A bug will disappear when you add one console.log().",
-  "You passed the vibe check today. 😎",
+  "🔮 Your back hurts? Inom ka ng tubig. Posture check muna.",
+  "🔮 That error is not a bug. It's a 'surprise feature'.",
+  "🔮 Stop overthinking. It works on my machine.",
+  "🔮 You will be asked to fix the printer today because you 'know computers'.",
+  "🔮 Pahinga ka muna. Even StackOverflow needs a break.",
+  "🔮 Your next commit will conflict. Just accept your fate.",
+  "🔮 Wag ka mag-deploy ng Friday. Bad feng shui yan.",
 ];
 
+// "Tito Jokes" - Classic puns and groan-worthy humor
 const jokes = [
-  "Why did the developer go broke? Because they used up all their cache.",
-  "My code has two moods: works or why-is-this-happening.",
-  "I told my program a joke... it just threw an exception.",
+  "Anong tawag sa computer na kumakanta? ... A Dell. 🎤",
+  "Bakit bawal magutom sa EDSA? ... Kasi traffic JAM. 🍓",
+  "Anong sabi ng 0 sa 8? ... 'Nice belt!' 👖",
+  "Bakit malungkot ang kalendaryo? ... Kasi bilang na ang araw niya. 📅",
+  "Anong favorite sport ng mga web developer? ... C-SS (Tennis). 🎾",
+  "Saan nagpupunta ang mga pusa pag namatay sila? ... Sa Purrr-gatory. 😺",
+  "Anong tawag sa maliit na tsunami? ... Tsunami-it. 🌊",
 ];
 
 const vibeMap = {
-  happy: { emoji: "😄", message: "Keep going - you're shipping greatness!" },
-  tired: { emoji: "🥱", message: "Hydrate. Stretch. Then commit." },
-  stressed: { emoji: "😵‍💫", message: "Breathe. One bug at a time." },
+  happy: { 
+    emoji: "😎", 
+    message: "Ayos! Tuloy ang grind. Don't forget to commit." 
+  },
+  tired: { 
+    emoji: "💤", 
+    message: "Idlip ka muna 5 minutes. (After 5 hours na gising niyan)." 
+  },
+  stressed: { 
+    emoji: "💆‍♂️", 
+    message: "Chill lang. The bug smells fear. Relax ka lang." 
+  },
 };
 
-// Smash counter (stored in memory for now)
 let smashes = 0;
 
-// GET /api/fortune -> returns one random fortune
+// --- Endpoints ---
+
 app.get("/api/fortune", (req, res) => {
   const pick = fortunes[Math.floor(Math.random() * fortunes.length)];
   res.json({ fortune: pick });
 });
 
-// GET /api/joke -> returns one random joke
 app.get("/api/joke", (req, res) => {
   const pick = jokes[Math.floor(Math.random() * jokes.length)];
   res.json({ joke: pick });
 });
 
-// GET /api/vibe?mood=happy|tired|stressed
 app.get("/api/vibe", (req, res) => {
   const mood = (req.query.mood || "").toLowerCase();
   const vibe = vibeMap[mood];
 
   if (!vibe) {
-    return res.json({
-      mood: mood || "unknown",
-      emoji: "🤔",
-      message: "Try mood=happy, tired, or stressed.",
+    return res.status(400).json({
+      message: "Mood not found. Try happy, tired, or stressed.",
     });
   }
-
   res.json({ mood, ...vibe });
 });
 
-// POST /api/smash -> increases counter and returns the updated value
 app.post("/api/smash", (req, res) => {
   smashes += 1;
-  res.json({ smashes });
+  
+  let flavorText = "Sige lang!";
+  if (smashes > 10) flavorText = "Hala, sira na mouse mo.";
+  if (smashes > 50) flavorText = "Tama na, mahal ang electric bill!";
+  
+  res.json({ smashes, message: flavorText });
 });
 
-// GET /api/smashes -> returns current counter
-app.get("/api/smashes", (req, res) => {
-  res.json({ smashes });
-});
-
-// GET /api/secret?code=411L -> hidden message if code is correct
 app.get("/api/secret", (req, res) => {
   const code = req.query.code;
-
   if (code === "411L") {
-    return res.json({ message: "🎉 Secret unlocked: +10 luck on your next merge!" });
+    return res.json({ message: "🎉 Secret Unlocked: Libreng milk tea (joke lang)." });
   }
-
-  res.status(403).json({ message: "Nope 😄 Try code=411L" });
+  res.status(403).json({ message: "⛔ Access Denied. Wrong code." });
 });
 
-// Start server
 app.listen(PORT, () => {
-  console.log(`VibeCheck API running at http://localhost:${PORT}`);
+  console.log(`✨ VibeCheck API running at http://localhost:${PORT}`);
 });
