@@ -33,16 +33,17 @@ npm init -y
 
 # Install required dependencies
 npm install express cors
-
-3. Start the Backend Server
+```
+### 3. Start the Backend Server
 Run the following command to start the API:
 
-Bash
+```Bash
 
 node index.js
+```
 You should see: ✨ VibeCheck API running at http://localhost:3000
 
-4. Open the Frontend
+### 4. Open the Frontend
 Locate the index.html file in your folder.
 
 Double-click it to open it in your browser, or use a Live Server extension.
